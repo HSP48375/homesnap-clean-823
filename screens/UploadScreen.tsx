@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -43,6 +43,18 @@ const UploadScreen = ({ navigation }) => {
     twilightConversion: false,
     decluttering: false,
   });
+
+  // Test Supabase connection
+  useEffect(() => {
+    (async () => {
+      const { data, error } = await supabase.from('orders').select('*').limit(1);
+      if (error) {
+        console.log('❌ Supabase Test Error:', error.message);
+      } else {
+        console.log('✅ Supabase is connected! Orders:', data);
+      }
+    })();
+  }, []);
 
   // Generate unique order ID
   const generateOrderId = () => {
